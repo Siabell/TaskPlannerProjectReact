@@ -5,7 +5,42 @@ import {Button,Form,FormGroup, Label,Input} from 'reactstrap';
 import {BrowserRouter as Router, Link, Route} from 'react-router-dom'
 
 
-export function Login() {
+export class Login extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.state = { email: "", password: "" };
+        this.handleClick = this.handleClick.bind(this);
+        this.handleChangeEmail = this.handleChangeEmail.bind(this);
+        this.handleChangePassword = this.handleChangePassword.bind(this);
+        localStorage.setItem('email', 'valwe@gmail.com');
+        localStorage.setItem('password', 'vale');
+    }
+
+
+
+
+    handleClick = (e) => {
+        //window.location.href = "/index";
+        if (this.state.email == localStorage.getItem('email') && this.state.password == localStorage.getItem('password')){
+            console.log('this is:',this.state.email );
+            // localStorage.setItem('isLoggedIn', true);
+            window.location.href = "/index";
+        }
+        
+    } 
+
+    handleChangeEmail = (e) => {
+        this.setState({email: e.target.value}); 
+    }
+
+    handleChangePassword = (e) => {
+        this.setState({password: e.target.value});    
+    }
+
+
+
+render() {
     return (
         <Form className="login-form">
             <h2>
@@ -14,19 +49,22 @@ export function Login() {
             <img src={logo} alt ='image1'></img>
             <FormGroup>
                 <Label>Email</Label>
-                <Input type="email" placeholder="Email"/>
+                <Input id="email" type="email" placeholder="Email" onChange={this.handleChangeEmail} />
             </FormGroup>
             <FormGroup>
                 <Label>Password</Label>
-                <Input type="password" placeholder="Password"/>
+                <Input id="password" type="password" placeholder="Password" onChange={this.handleChangePassword}/>
             </FormGroup>
-            <Button className="btn-lg btn-block">Log in</Button>
+            <Button 
+            className="btn-lg btn-block"
+            onClick = {this.handleClick}
+
+            >Log in</Button>
             <div className="text-center"><br></br>
                 <a href="/Sign-up">Create Account</a>
             </div>
         </Form>
         
-    );
+        );
+    }
 }
-
-export default Login;

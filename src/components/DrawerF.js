@@ -16,6 +16,7 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
+import PersonIcon from '@material-ui/icons/Person';
 import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
@@ -116,6 +117,7 @@ export function DrawerF() {
                         className={clsx(classes.menuButton, open && classes.hide)}
                     >
                         <MenuIcon />
+                        
                     </IconButton>
                 </Toolbar>
             </AppBar>
@@ -129,6 +131,10 @@ export function DrawerF() {
                 }}
             >
                 <div className={classes.drawerHeader}>
+                    <PersonIcon  style={{fontSize: "3rem"}}/>
+                    <ListItemText >
+                        <p >{localStorage.getItem("email")}</p>
+                    </ListItemText>
                     <IconButton onClick={handleDrawerClose}>
                         {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
                     </IconButton>

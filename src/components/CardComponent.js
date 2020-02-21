@@ -1,31 +1,55 @@
 import React from 'react';
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css'
-import {
-    Card, CardImg, CardText, CardBody,
-    CardTitle, CardSubtitle, Button
-} from 'reactstrap';
 
-export class CardComponent extends React.Component {
+import { makeStyles } from '@material-ui/core/styles';
+import Card from '@material-ui/core/Card';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
 
-    constructor(props) {
-        super(props);
-    }
-
-    render() {
-        const data = this.props;
-        return (
-            <div>
-                <Card>
-                    <CardBody>
-                        <CardSubtitle>{this.props.description}</CardSubtitle>
-                        <CardText>{this.props.status} - {this.props.dueDate}</CardText>
-                        <CardText>{this.props.responsible.name}</CardText>
-                        <CardText>{this.props.responsible.email}</CardText>
-                        
-                    </CardBody>
-                </Card>
-            </div>
-        );
-    }
-
-}
+const useStyles = makeStyles({
+    root: {
+      minWidth: 275,
+      margin: 15
+    },
+    bullet: {
+      display: 'inline-block',
+      margin: '0 2px',
+      transform: 'scale(0.8)',
+    },
+    title: {
+      fontSize: 14,
+    },
+    pos: {
+      marginBottom: 12,
+    },
+  });
+  
+  export function CardComponent(props) {
+    const classes = useStyles();
+    
+    return (
+      <Card className={classes.root}>
+        <CardContent>
+          <Typography variant="h5" component="h2">
+          {props.description}
+          </Typography>
+          <br></br>
+          <Typography variant="h6" component="h6">
+          {props.status} - {props.dueDate}
+          </Typography>
+          <br></br>
+          <Typography variant="body2" component="p">
+          {props.responsible.name}
+          <br></br>
+          {props.responsible.email}
+          </Typography>
+        </CardContent>
+        {/*<CardActions>
+          <Button size="small">Learn More</Button>
+        </CardActions>*/}
+      </Card>
+    );
+  }
+  

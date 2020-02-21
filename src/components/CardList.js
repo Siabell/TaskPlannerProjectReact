@@ -1,5 +1,5 @@
 import React from 'react';
-import {CardComponent} from './CardComponent'
+import {CardComponent} from './CardComponent.js'
 
 export class CardList extends React.Component {
 
@@ -30,6 +30,7 @@ export class CardList extends React.Component {
         });
 
         return (
+            
             <table>
                 <tbody>
                 {cardList}
