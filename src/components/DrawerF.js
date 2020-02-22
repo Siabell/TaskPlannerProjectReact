@@ -134,6 +134,7 @@ export function DrawerF() {
                     <PersonIcon  style={{fontSize: "3rem"}}/>
                     <ListItemText >
                         <p >{localStorage.getItem("email")}</p>
+                        <p >{localStorage.getItem("name")}</p>
                     </ListItemText>
                     <IconButton onClick={handleDrawerClose}>
                         {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
@@ -141,14 +142,9 @@ export function DrawerF() {
                     
                 </div>
                 <Divider />
-                {/* <List>
-                    {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-                        <ListItem button key={text}>
-                            <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                            <ListItemText primary={text} />
-                        </ListItem>
-                    ))}
-                </List> */}
+                <div className="text-center"><br></br>
+                    <a href="/">Logout</a>
+                </div>
 
             </Drawer>
             <main
@@ -158,7 +154,6 @@ export function DrawerF() {
             >
                 <div className={classes.drawerHeader} />
                 
-                <CardList></CardList>
             </main>
         </div>
     );

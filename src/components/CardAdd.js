@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import DatePicker from 'react-datepicker';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -12,7 +12,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import MenuItem from '@material-ui/core/MenuItem';
 import moment from "moment";
-import DateFnsUtils from '@date-io/date-fns';
+import CheckIcon from '@material-ui/icons/Check';
+import {CardList} from './CardList';
 
 import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 
@@ -33,53 +34,86 @@ const states = [
 ];
 
 
-const useStyles = makeStyles(theme => ({
-    paper: {
-        marginTop: theme.spacing(8),
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-    },
-    avatar: {
-        margin: theme.spacing(1),
-        backgroundColor: theme.palette.primary.main,
-    },
-    form: {
-        width: '100%', // Fix IE 11 issue.
-        marginTop: theme.spacing(3),
-    },
-    submit: {
-        margin: theme.spacing(3, 0, 2),
-    },
-}));
 
+export class CardAdd extends Component {
 
+    constructor(props) {
+        super(props);
+        this.state = { items: [{description: "some description text ",
+        responsible: { name: "Santiago Carrillo", email: "sancarbar@gmail"
+        }, status: "ready", dueDate: new Date(2020,1,30).toDateString()
+        }], description: '', status: '', dueDate: moment(), name: '', email: ''};
+        this.handleChangeDescription = this.handleChangeDescription.bind(this);
+        this.handleChangeStatus = this.handleChangeStatus.bind(this);
+        this.handleChangeDate = this.handleChangeDate.bind(this);
+        this.handleChangeName = this.handleChangeName.bind(this);
+        this.handleChangeEmail = this.handleChangeEmail.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+    }
 
-export function CardAdd(props) {
-    const classes = useStyles();
-    const [status, setStatus] = React.useState('In Progess');
-    const [state, setState] = React.useState({ items: [], description: '', status: '', dueDate:  moment(), name: '', email: ''});
-    const handleChangeStatus = event => {
-        
-        setState({status: event.target.value});
+    handleChangeStatus(event){    
+        this.setState({status: event.target.value});
     };
 
-    const handleChangeDate = e => {
-        console.log(e)
-        setState({ dueDate: moment(e, 'YYYY-MM-DD')
+    handleChangeName (event) {
+        this.setState({name: event.target.value});
+    };
+
+    handleChangeEmail (event) {
+        this.setState({email: event.target.value});
+    };
+
+    handleChangeDescription(event) {
+        this.setState({description: event.target.value});
+    };
+
+    handleChangeDate (date) {
+        console.log(date)
+        this.setState({
+            dueDate: date.target.value
         });
     };
 
+    handleClick = (e) => {
+        
+        window.location.href = "/index";
 
+    } 
+
+    handleSubmit(e){
+
+        e.preventDefault();
+        const newItem = {
+            description: this.state.description,
+            responsible: { name: this.state.name, email: this.state.email },
+            status: this.state.status,
+            dueDate: this.state.dueDate,
+        };
+        this.setState(prevState => ({
+            items: prevState.items.concat(newItem),
+            description: '',
+            status: '',
+            dueDate: moment(),
+            name: '',
+            email: '',
+            open: false
+        }));
+        
+    }
+
+    render() {
     return (
+        <div>
+            
+        
         <Container component="main" maxWidth="xs">
             <CssBaseline />
-            <div className={classes.paper}>
-                <Typography component="h1" variant="h5">
+            <div>
+                <Typography component="h1" variant="h5" >
                     New Task
-        </Typography>
+                </Typography>
 
-                <form className={classes.form} noValidate>
+                <form onSubmit={this.handleSubmit}>
                     <Grid container spacing={2}>
                         <Grid item xs={12}>
                             <TextField
@@ -88,16 +122,30 @@ export function CardAdd(props) {
                                 id="description"
                                 label="Description"
                                 name="description"
+                                selected={this.state.description}
+                                onChange={this.handleChangeDescription}
+                                autoComplete="description"
                             />
                         </Grid>
                         <Grid item xs={12}>
                             <TextField
                                 required
                                 fullWidth
-                                id="responsible"
-                                label="Responsible"
-                                name="responsible"
-                                autoComplete="responsible"
+                                id="name"
+                                label="name"
+                                name="name"
+                                selected={this.state.name}
+                                onChange={this.handleChangeName}
+                            />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <TextField
+                                required
+                                fullWidth
+                                label="email"
+                                name="email"
+                                selected={this.state.email}
+                                onChange={this.handleChangeEmail}
                             />
                         </Grid>
                         <Grid item xs={12}>
@@ -106,10 +154,10 @@ export function CardAdd(props) {
                                 fullWidth
                                 select
                                 id="standard-select-currency"
-                                label="Description"
-                                name="description"
-                                value={state.status}
-                                onChange={handleChangeStatus}
+                                label="Status"
+                                name="status"
+                                value={this.state.status}
+                                onChange={this.handleChangeStatus}
                             >{states.map(option => (
                                 <MenuItem key={option.value} value={option.value}>
                                     {option.label}
@@ -118,26 +166,35 @@ export function CardAdd(props) {
                             </TextField>
                         </Grid>
                         <Grid item xs={12}>
-                            <DatePicker
-                                id="due-date"
-                                placeholderText="Due date"
-                                value={state.dueDate}
-                                onChange={handleChangeDate}
-                                >
-                            </DatePicker>
+                        <Typography component="body" variant="h7">
+                            Due Date:
+                        </Typography><br></br>
+                        <input
+                            required
+                            type="date"
+                            id="new-todoDate"
+                            onChange={this.handleChangeDate}
+                            value={this.state.dueDate}
+                            />
                         </Grid>
                     </Grid>
+                    <br></br>
                     <Button
                         type="submit"
-                        fullWidth
                         variant="contained"
                         color="primary"
-                        className={classes.submit}
+                        startIcon={<CheckIcon />}
                     >
-                        Sign Up
-          </Button>
+                        Save
+                        
+                    </Button>
                 </form>
+
+                <CardList items={this.state.items}/>
             </div>
+            
         </Container>
+        </div>
     );
+    }
 }

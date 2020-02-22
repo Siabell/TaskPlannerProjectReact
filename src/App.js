@@ -5,31 +5,39 @@ import {Login} from './components/Login.js';
 import {SignUp} from './components/SignUp.js';
 import {DrawerF} from './components/DrawerF.js';
 import {CardAdd} from './components/CardAdd.js';
+import {CardList} from './components/CardList.js';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 const LoginView = () => (
   <div>
-     <Login/>
+      <Login />
   </div>
 );
 
 const HomeView = () => (
   <div>
-     <DrawerF />
+      {localStorage.getItem('isLoggedIn') == "true" ? <div> <DrawerF/> <CardAdd /> </div> : <Login />}
   </div>
 );
 
 const SignUpView = () => (
   <div>
-     <SignUp />
+      <SignUp />
   </div>
 );
 
 const AddTaskView = () => (
   <div>
-     <CardAdd />
+      <DrawerF/>
+      <CardAdd />
   </div>
 );
+
+if (localStorage.getItem('isLoggedIn') === undefined) {
+  localStorage.setItem('isLoggedIn', false)
+}
+
+console.log(localStorage.getItem('isLoggedIn')== "true" );
 
 
 function App() {

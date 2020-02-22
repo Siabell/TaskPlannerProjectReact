@@ -13,18 +13,18 @@ export class Login extends React.Component {
         this.handleClick = this.handleClick.bind(this);
         this.handleChangeEmail = this.handleChangeEmail.bind(this);
         this.handleChangePassword = this.handleChangePassword.bind(this);
-        localStorage.setItem('email', 'valwe@gmail.com');
-        localStorage.setItem('password', 'vale');
+        
     }
 
 
 
 
     handleClick = (e) => {
-        //window.location.href = "/index";
+        e.preventDefault();
         if (this.state.email == localStorage.getItem('email') && this.state.password == localStorage.getItem('password')){
             console.log('this is:',this.state.email );
-            // localStorage.setItem('isLoggedIn', true);
+            alert('Access')
+            localStorage.setItem('isLoggedIn', true);
             window.location.href = "/index";
         }
         
@@ -61,7 +61,7 @@ render() {
 
             >Log in</Button>
             <div className="text-center"><br></br>
-                <a href="/Sign-up">Create Account</a>
+                <a href="/signUp">Create Account</a>
             </div>
         </Form>
         

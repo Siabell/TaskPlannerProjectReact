@@ -9,41 +9,62 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 
-const useStyles = makeStyles(theme => ({
-  paper: {
-    marginTop: theme.spacing(8),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.primary.main,
-  },
-  form: {
-    width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing(3),
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
-  },
-}));
 
-export function SignUp() {
-  const classes = useStyles();
+export class SignUp extends React.Component {
+  constructor(props) {
+    console.log("no entiendos")
+    super(props);
+    this.state = { email: '', password: '', passwordC : '', name: '' }
+    this.handleChangeEmail = this.handleChangeEmail.bind(this);
+    this.handleChangePassword = this.handleChangePassword.bind(this);
+    this.handleChangePasswordC = this.handleChangePasswordC.bind(this);
+    this.handleChangeName = this.handleChangeName.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+}
 
+handleChangeEmail(e) {
+  this.setState({ email: e.target.value })
+}
+
+handleChangePassword(e) {
+  this.setState({ password: e.target.value })
+}
+
+handleChangePasswordC(e) {
+  this.setState({ passwordC: e.target.value })
+}
+
+handleChangeName(e) {
+  this.setState({ name: e.target.value })
+}
+
+handleSubmit(e) {
+  e.preventDefault();
+  if (this.state.password != this.state.passwordC) {
+      alert("Password is not the same");
+  } else if(this.state.name && this.state.email && this.state.password && this.state.passwordC ){
+    alert("Account Created");
+      window.location.href = "/";
+      localStorage.setItem(this.state.email,this.state.password);
+      localStorage.setItem('name',this.state.name);
+      localStorage.setItem('email', this.state.email);
+      localStorage.setItem('password', this.state.password);
+  }
+  
+}
+render() {
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
-      <div className={classes.paper}>
+      <div >
         <Typography component="h1" variant="h5">
           Registration
         </Typography>
-        <Avatar className={classes.avatar}>
+        <Avatar style={{ margin: '10px' }} >
           <PersonIcon />
         </Avatar>
         
-        <form className={classes.form} noValidate>
+        <form noValidate onSubmit={this.handleSubmit}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField
@@ -54,6 +75,8 @@ export function SignUp() {
                 label="fulll Name"
                 name="fullName"
                 autoComplete="lname"
+                value={this.state.name}
+                onChange={this.handleChangeName}
               />
             </Grid>
             <Grid item xs={12}>
@@ -65,6 +88,8 @@ export function SignUp() {
                 label="Email Address"
                 name="email"
                 autoComplete="email"
+                value={this.state.email}
+                onChange={this.handleChangeEmail}
               />
             </Grid>
             <Grid item xs={12}>
@@ -77,6 +102,8 @@ export function SignUp() {
                 type="password"
                 id="password"
                 autoComplete="current-password"
+                value={this.state.password}
+                onChange={this.handleChangePassword}
               />
             </Grid>
             <Grid item xs={12}>
@@ -89,15 +116,18 @@ export function SignUp() {
                 type="password"
                 id="passwordC"
                 autoComplete="current-password"
+                value={this.state.passwordC}
+                onChange={this.handleChangePasswordC}
               />
             </Grid>
           </Grid>
+          <br></br>
           <Button
             type="submit"
             fullWidth
             variant="contained"
             color="primary"
-            className={classes.submit}
+            
           >
             Sign Up
           </Button>
@@ -105,4 +135,5 @@ export function SignUp() {
       </div>
     </Container>
   );
+}
 }
